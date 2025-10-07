@@ -1,6 +1,6 @@
 # GitHub: Intro to Actions
 
-[![Demo 7 - Environments](https://github.com/djredman99/github-intro-to-actions-demos/actions/workflows/main.yml/badge.svg)](https://github.com/djredman99/github-intro-to-actions-demos/actions/workflows/main.yml)  
+[![Demo 7 - Environments](https://github.com/djredman99-org/attestation-demo/actions/workflows/main.yml/badge.svg)](https://github.com/djredman99-org/attestation-demo/actions/workflows/main.yml)  
 I am a badge that will display status of a workflow
 
 ## Overview
