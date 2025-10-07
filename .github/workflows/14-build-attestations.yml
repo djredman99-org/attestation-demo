@@ -13,7 +13,7 @@ jobs:
     permissions:
       # for checkout
       contents: read
-      # you must include these permissions to use the action/attest-build-provenance@v1 action
+      # you must include these permissions to use the actions/attest-build-provenance@v1 action
       id-token: write
       attestations: write
 
