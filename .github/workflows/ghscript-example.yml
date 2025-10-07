@@ -1,0 +1,85 @@
+name: github-script action
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_KEY }}
+          
+      # Showing the repo object
+      - name: Get current repo details
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const repo = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            console.log(repo.data);
+
+      # displaying specific data within the repo object
+      - name: Get repo permissions
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const repo = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            console.log(repo.data.permissions);
+
+      # outputing the rest object
+      - name: dump an object
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |    
+            console.log(github.rest.orgs);
+
+      - name: List Repos and Custom Properties
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            let username = 'djredman99'
+            let page = 1;
+            let repoList = [];
+            //while (true) {
+              const repos = await github.rest.repos.listForUser({
+                username,
+              });
+              if (repos.data.length === 0){
+                console.log('NO DATA');
+                //break;
+              }
+              repoList = repoList.concat(repos.data);
+              //console.log(repoList);
+              page++;
+            //}
+            for(let repo of repoList) {
+            // Access and print the custom property here
+            console.log(repo.name, repo.custom_property);
+            }
+
+            
+      - name: Push to Step Summary in javascript
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            let username = 'djredman99'
+            process.env.GITHUB_STEP_SUMMARY = 'HELOO'
+            console.log(process.env.GITHUB_STEP_SUMMARY)
+            
+            

@@ -1,0 +1,19 @@
+name: My Reusable Workflow
+
+on:
+  workflow_call:
+  
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "reusable workflow job1"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT" 
+        
+  
+  reusable-job2:
+    uses: ./.github/workflows/reusable2.yml
+    needs: job1

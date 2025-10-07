@@ -1,0 +1,18 @@
+name: Demo 6 - Custom Action
+
+on: [workflow_dispatch]
+  
+jobs:
+  call-an-action:
+    name: Call Custom Action
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Call the Action
+      uses: ./actions/djr-action
+
+      
+   

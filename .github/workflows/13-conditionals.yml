@@ -1,0 +1,66 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Demo 13 - Conditionals with inputs
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  workflow_dispatch:
+    inputs:
+      build-option:
+        description: The option
+        type: choice
+        options:
+          - Otpion1
+          - Option2
+  pull_request:
+    branches: [ "main" ]
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  test-condition:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    env:
+      BUILD_OPTION: ${{ inputs.build-option }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      - name: Check Option
+        if: ${{ env.BUILD_OPTION == ''}}
+        run: echo "BUILD_OPTION=${{ vars.defaultOption }}" >> $GITHUB_ENV
+
+      # Runs a set of commands using the runners shell
+      - name: Echo value
+        run: echo $BUILD_OPTION
+
+  step-conditions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        id: step1
+        run: |
+          echo "Hey there, I am step 1"
+          exit 1
+
+      - name: Step 2
+        if: ${{ success() || steps.step1.conclusion == 'failure' }}
+        #if: ${{ always() }}
+        id: step2
+        run: |
+          echo "And I am Step 2"
+          echo ${{ steps.step1.conclusion }}
+          exit 0
+
+      - name: Step 3
+        if: ${{ success() || steps.step2.conclusion == 'failure' }}
+        id: step3
+        run: |
+          echo "Step 3 here!!!"
+          exit 0
+
+

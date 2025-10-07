@@ -1,0 +1,34 @@
+name: Test Shell Variables Between Run Statements
+
+on: workflow_dispatch
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    env:
+      http_proxy: http://proxy.dog.sbc.local.com
+      https_proxy: http://proxy.dog.sbc.local.com.dan.awesome
+    steps:
+      - run: |
+          export DAN="Hey Dan"
+          echo $DAN
+          
+          name="Dan"
+          echo $name
+
+          pwd
+          mkdir Dan
+          cd Dan
+          pwd
+
+      - run: |    
+          echo "-=== SHOWING VALUES ===-"
+          echo $DAN
+          echo $name
+          echo "-=== END SHOWING VALUES ===-"
+          echo "-=== Showing Path ===-"
+          pwd
+          echo "-=== showing envs ===-"
+          echo $http_proxy
+          echo $https_proxy
+
